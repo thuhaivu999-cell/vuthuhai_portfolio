@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vu Thu Hai — Business Analyst Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=Fraunces:ital,opsz,wght@1,9..144,500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Plus Jakarta Sans','ui-sans-serif','system-ui'], serif: ['Fraunces','ui-serif','Georgia'] },
+        colors: {
+          slate:  { 50:'#F8FAFC',100:'#F1F5F9',200:'#E2E8F0',400:'#94A3B8',500:'#64748B',700:'#334155',900:'#0F172A' },
+          emerald:{500:'#10B981'}
+        },
+        boxShadow: {
+          soft: '0 4px 20px -2px rgba(147,51,234,0.1)',
+          softhover: '0 10px 25px -5px rgba(147,51,234,0.15), 0 8px 10px -6px rgba(219,39,119,0.1)',
+          btn: '0 4px 14px 0 rgba(147,51,234,0.3)',
+          glow: '0 0 20px rgba(219,39,119,0.5)',
+          lift: '0 20px 45px -12px rgba(88,28,135,0.25)'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html{scroll-behavior:smooth;}
+  body{background:#F8FAFC;position:relative;}
+
+  /* subtle grain / noise for depth */
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
+  .grad-text{background-image:linear-gradient(90deg,#9333EA,#DB2777);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .grad-btn{background-image:linear-gradient(135deg,#9333EA,#DB2777);background-size:150% 150%;background-position:0% 0%;transition:background-position .5s ease, transform .2s ease-out, box-shadow .2s ease-out;}
+  .grad-btn:hover{background-position:100% 100%;}
+  .blob{position:absolute;border-radius:9999px;filter:blur(80px);pointer-events:none;z-index:0;}
+
+  .card-lift{transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s ease-out, border-color .25s ease-out;}
+  .card-lift:hover{transform:translateY(-6px);box-shadow:0 20px 45px -12px rgba(88,28,135,0.22);}
+  .btn-lift{transition:transform .2s ease-out, box-shadow .2s ease-out;}
+  .btn-lift:hover{transform:translateY(-2px);}
+  .btn-lift:active{transform:translateY(0);}
+
+  .iso-card{perspective:2000px;}
+  .iso-inner{transform:rotateX(5deg) rotateY(-12deg);transition:transform .3s ease-out;transform-style:preserve-3d;}
+  .iso-card:hover .iso-inner{transform:rotateX(2deg) rotateY(-8deg);}
+
+  .icon-badge{width:48px;height:48px;border-radius:0.9rem;background:linear-gradient(135deg,#F3E8FF,#FCE7F3);color:#9333EA;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(147,51,234,0.08);}
+  .icon-badge svg{width:22px;height:22px;}
+  .icon-badge-sm{width:38px;height:38px;border-radius:0.7rem;}
+  .icon-badge-sm svg{width:18px;height:18px;}
+
+  .float-slow{animation:floaty 4s ease-in-out infinite;}
+  @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  @keyframes floaty2{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-6px) rotate(3deg);}}
+
+  ::selection{background:#9333EA;color:#fff;}
+  input:focus, textarea:focus{outline:none;box-shadow:0 0 0 2px #9333EA, 0 0 0 4px rgba(147,51,234,0.15);border-color:#9333EA;}
+
+  .case-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+  .case.open .case-body{max-height:1400px;}
+  .case.open .chev-wrap{transform:rotate(180deg);background:linear-gradient(135deg,#9333EA,#DB2777);}
+  .case.open .chev-wrap svg{stroke:#fff;}
+  .chev-wrap{transition:transform .3s ease, background .3s ease;width:32px;height:32px;border-radius:9999px;background:#F1F5F9;display:flex;align-items:center;justify-content:center;}
+
+  /* grid pattern background */
+  .grid-pattern{
+    background-image:linear-gradient(rgba(148,163,184,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.13) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 90%);
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 90%);
+  }
+
+  /* gradient border wrapper */
+  .gborder{background:linear-gradient(135deg, rgba(147,51,234,0.35), rgba(219,39,119,0.35));border-radius:1.1rem;padding:1px;}
+  .gborder-inner{border-radius:calc(1.1rem - 1px);background:#fff;height:100%;}
+
+  /* eyebrow label */
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;}
+  .eyebrow::before{content:'';width:20px;height:2px;border-radius:2px;background:linear-gradient(90deg,#9333EA,#DB2777);}
+
+  /* scroll reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-delay-1.in-view{transition-delay:.08s;}
+  .reveal-delay-2.in-view{transition-delay:.16s;}
+  .reveal-delay-3.in-view{transition-delay:.24s;}
+  .reveal-delay-4.in-view{transition-delay:.32s;}
+  .reveal-delay-5.in-view{transition-delay:.4s;}
+
+  header.scrolled{box-shadow:0 4px 20px -6px rgba(88,28,135,0.12);}
+
+  .nav-link{position:relative;}
+  .nav-link::after{content:'';position:absolute;left:0;right:100%;bottom:-6px;height:2px;border-radius:2px;background:linear-gradient(90deg,#9333EA,#DB2777);transition:right .25s ease;}
+  .nav-link:hover::after{right:0;}
+
+  .tag-pill{transition:all .2s ease;}
+  .tag-pill:hover{background:#9333EA;color:#fff;border-color:#9333EA;transform:translateY(-1px);}
+
+  .timeline-dot{width:12px;height:12px;border-radius:9999px;background:linear-gradient(135deg,#9333EA,#DB2777);box-shadow:0 0 0 4px rgba(147,51,234,0.15);}
+
+  .marquee-track{animation:marquee 22s linear infinite;}
+  @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+  .glass{background:rgba(255,255,255,0.65);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+</style>
+</head>
+<body class="text-slate-900 font-sans antialiased">
+
+<!-- Nav -->
+<header id="site-header" class="sticky top-0 z-50 glass border-b border-slate-200/70 transition-shadow duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="font-extrabold text-lg tracking-tight flex items-center gap-2 cursor-pointer">
+      <span class="w-8 h-8 rounded-lg grad-btn flex items-center justify-center text-white text-sm font-bold shadow-btn">VH</span>
+      Vu Thu Hai
+    </button>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-700">
+      <a href="#journey" class="nav-link hover:text-purple-600 transition-colors">My Journey</a>
+      <a href="#roadmap" class="nav-link hover:text-purple-600 transition-colors">Roadmap</a>
+      <a href="#skills" class="nav-link hover:text-purple-600 transition-colors">Skills</a>
+      <a href="#projects" class="nav-link hover:text-purple-600 transition-colors">Projects</a>
+      <a href="#certificates" class="nav-link hover:text-purple-600 transition-colors">Certificates</a>
+      <a href="#contact" class="nav-link hover:text-purple-600 transition-colors">Contact</a>
+    </nav>
+    <a href="Vu-Thu-Hai-CV-EN.pdf" download class="btn-lift grad-btn text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-btn">Download CV</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 grid-pattern"></div>
+  <div class="blob w-[520px] h-[520px] bg-purple-200 opacity-40 -top-40 -left-40"></div>
+  <div class="blob w-[460px] h-[460px] bg-pink-200 opacity-40 top-0 right-0"></div>
+  <div class="blob w-[300px] h-[300px] bg-purple-100 opacity-50 bottom-0 left-1/3"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20 lg:py-28">
+    <span class="reveal inline-flex items-center gap-2 text-xs font-semibold text-purple-700 bg-white/80 border border-purple-100 rounded-full px-3.5 py-1.5 mb-6 shadow-soft">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+      </span>
+      Open to Junior Business Analyst roles
+    </span>
+    <h1 class="reveal reveal-delay-1 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-[-0.02em] mb-8 max-w-3xl">
+      Vu Thu Hai —<br><span class="grad-text">Business Analyst &amp; Digital Transformation</span>
+    </h1>
+
+    <div class="grid lg:grid-cols-2 gap-14 items-center mb-8">
+      <div class="reveal reveal-delay-2">
+        <p class="text-slate-500 text-lg mb-3 leading-relaxed text-justify">Business Analyst with <strong class="text-slate-900 font-semibold">4+ years</strong> of experience delivering digital transformation initiatives across cross-functional teams — from requirement elicitation and business process analysis to functional documentation and end-to-end UAT coordination.</p>
+        <p class="text-slate-500 leading-relaxed text-justify">Skilled in BRD, SRS, User Stories, BPMN, SQL, and Agile/Scrum, with a strong ability to bridge business needs and technology.</p>
+      </div>
+
+      <div class="reveal reveal-delay-2 iso-card flex justify-center lg:justify-end">
+        <div class="iso-inner float-slow relative">
+          <div class="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-purple-600 to-pink-600 opacity-25 blur-3xl"></div>
+          <div class="absolute -top-5 -right-6 w-14 h-14 rounded-2xl bg-white shadow-soft border border-slate-100 flex items-center justify-center" style="animation:floaty2 5s ease-in-out infinite;">
+            <svg class="w-6 h-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3.5h6v2H9zM8 10h8M8 13.5h8M8 17h5"/></svg>
+          </div>
+          <div class="relative bg-white rounded-full p-3 shadow-softhover border border-slate-100">
+            <img src="portrait.png" alt="Vu Thu Hai" class="w-72 h-72 sm:w-80 sm:h-80 object-cover rounded-full">
+            <div class="absolute -bottom-4 -left-4 bg-white rounded-xl px-4 py-2.5 shadow-soft border border-slate-100 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-semibold text-slate-700">Business Analyst</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-3 flex flex-wrap gap-2 mb-8">
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">Business Analysis</span>
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">Digital Transformation</span>
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">Requirements Elicitation</span>
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">BPMN</span>
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">UAT</span>
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">SQL</span>
+      <span class="tag-pill text-xs font-medium bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 cursor-default">Agile Scrum</span>
+    </div>
+    <p class="reveal reveal-delay-3 italic text-slate-700 border-l-2 border-purple-600 pl-4 mb-8 max-w-lg font-serif">My goal is not only to document requirements, but to help organizations solve business problems through effective and user-centric technology solutions.</p>
+    <div class="reveal reveal-delay-4 flex flex-wrap gap-3">
+      <a href="#projects" class="btn-lift grad-btn text-white font-semibold px-6 py-3 rounded-full shadow-btn">View Projects</a>
+      <a href="Vu-Thu-Hai-CV-EN.pdf" download class="btn-lift bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-full hover:bg-slate-50">Download CV</a>
+      <a href="#contact" class="btn-lift bg-white border border-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-full hover:bg-slate-50">Let's Connect</a>
+    </div>
+  </div>
+</section>
+
+<!-- 01 My Journey -->
+<section id="journey" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">01 · My Journey</span></div>
+    <h2 class="reveal text-3xl sm:text-4xl font-bold tracking-tight mb-8">Business Analysis Capabilities</h2>
+    <div class="reveal max-w-none text-slate-500 leading-relaxed space-y-4 mb-12 text-justify">
+      <p>My journey into <strong class="text-slate-900 font-semibold">Business Analysis</strong> began in an in-house <strong class="text-slate-900 font-semibold">Digital Transformation team at AEON MALL Vietnam</strong>, where I worked as the bridge between business stakeholders and external development vendors. Across multiple digital transformation initiatives, I was involved throughout the entire project lifecycle — from <strong class="text-slate-900 font-semibold">requirement elicitation</strong>, <strong class="text-slate-900 font-semibold">business process modeling (BPMN/UML)</strong>, and functional documentation to vendor collaboration, <strong class="text-slate-900 font-semibold">UAT</strong>, <strong class="text-slate-900 font-semibold">go-live</strong>, and <strong class="text-slate-900 font-semibold">post-launch support</strong>.</p>
+      <p>These experiences built a strong foundation in business analysis while inspiring me to move beyond requirement management into <strong class="text-slate-900 font-semibold">solution design and product thinking</strong>. To challenge myself further, I independently developed <strong class="text-slate-900 font-semibold">TravelLoop</strong>, an end-to-end Business Analysis portfolio project that demonstrates my ability to analyze business problems, define solutions, and translate ideas into deliverable product artifacts.</p>
+      <p>Across digital transformation, marketplace, and data analytics projects, I have produced a wide range of BA deliverables, including:</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+      <div class="reveal card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 relative overflow-hidden">
+        <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 opacity-70"></div>
+        <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3.5h6v2H9zM8 10h8M8 13.5h8M8 17h5"/></svg></div>
+        <div class="text-3xl font-extrabold grad-text mb-1 relative z-10">30+</div>
+        <div class="text-sm text-slate-500 relative z-10">Use Case Specifications, including UML diagrams for key business processes</div>
+      </div>
+      <div class="reveal reveal-delay-1 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 relative overflow-hidden">
+        <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 opacity-70"></div>
+        <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h9l5 5v10.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5Z"/><path d="M14 4v5h5M8 13h8M8 16.5h5"/></svg></div>
+        <div class="text-3xl font-extrabold grad-text mb-1 relative z-10">12</div>
+        <div class="text-sm text-slate-500 relative z-10">Marketplace Policies &amp; Operational Guidelines</div>
+      </div>
+      <div class="reveal reveal-delay-2 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 relative overflow-hidden">
+        <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 opacity-70"></div>
+        <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-3.5 3-5.5 5.5-5.5s5 2 5.5 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.5 14.3c2.2.3 3.9 2.1 4.3 4.7"/></svg></div>
+        <div class="text-3xl font-extrabold grad-text mb-1 relative z-10">250+</div>
+        <div class="text-sm text-slate-500 relative z-10">Sellers Successfully Onboarded</div>
+      </div>
+      <div class="reveal card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 relative overflow-hidden">
+        <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 opacity-70"></div>
+        <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 19V9l5-4 5 4v10"/><path d="M9 19v-6h4v6"/></svg></div>
+        <div class="text-3xl font-extrabold grad-text mb-1 relative z-10">4</div>
+        <div class="text-sm text-slate-500 relative z-10">Core Report Types Designed</div>
+      </div>
+      <div class="reveal reveal-delay-1 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 relative overflow-hidden">
+        <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 opacity-70"></div>
+        <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 3 6.3"/><path d="M4 18v-4h4"/></svg></div>
+        <div class="text-3xl font-extrabold grad-text mb-1 relative z-10">6+</div>
+        <div class="text-sm text-slate-500 relative z-10">Post-Launch Enhancements</div>
+      </div>
+      <div class="reveal reveal-delay-2 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 relative overflow-hidden">
+        <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 opacity-70"></div>
+        <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5c2.2-1.4 5-1.4 8 0v13c-3-1.4-5.8-1.4-8 0Z"/><path d="M20 5.5c-2.2-1.4-5-1.4-8 0v13c3-1.4 5.8-1.4 8 0Z"/></svg></div>
+        <div class="text-3xl font-extrabold grad-text mb-1 relative z-10">1·1·1</div>
+        <div class="text-sm text-slate-500 relative z-10">BRD · SRS · ERD — Self-Initiated Project (TravelLoop)</div>
+      </div>
+    </div>
+
+    <p class="reveal max-w-none text-slate-500 leading-relaxed mb-14 text-justify">These experiences developed my systems thinking, strengthened my collaboration with business stakeholders and development vendors, and enabled me to contribute across the full product lifecycle — from requirement analysis to post-launch optimization.</p>
+
+    <span class="reveal eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase block mb-6">Core Values</span>
+    <div class="grid sm:grid-cols-2 gap-5">
+      <div class="reveal card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 flex gap-4">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="12" cy="13" r="2.2"/><circle cx="6" cy="20" r="2.2"/><circle cx="18" cy="20" r="2.2"/><path d="M7.7 7.5 10.5 11.5M16.3 7.5 13.5 11.5M11 15 7.5 18M13 15 16.5 18"/></svg></div>
+        <div><h3 class="font-bold text-lg mb-1.5">Analytical Thinking</h3><p class="text-sm text-slate-500 leading-relaxed">Break down complex business problems, understand root causes, and translate them into practical digital solutions.</p></div>
+      </div>
+      <div class="reveal reveal-delay-1 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 flex gap-4">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M20 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v2l-3-2"/></svg></div>
+        <div><h3 class="font-bold text-lg mb-1.5">Stakeholder Communication</h3><p class="text-sm text-slate-500 leading-relaxed">Facilitate effective collaboration between business teams and development vendors, ensuring clear alignment throughout delivery.</p></div>
+      </div>
+      <div class="reveal reveal-delay-2 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 flex gap-4">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18"/><path d="M5 4h11l-2.2 3.5L16 11H5"/></svg></div>
+        <div><h3 class="font-bold text-lg mb-1.5">Ownership</h3><p class="text-sm text-slate-500 leading-relaxed">Stay engaged from requirement elicitation to go-live and post-launch enhancements, ensuring solutions keep delivering value.</p></div>
+      </div>
+      <div class="reveal reveal-delay-3 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 flex gap-4">
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 12H1M23 12h-3.2M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/><circle cx="12" cy="12" r="4.2"/></svg></div>
+        <div><h3 class="font-bold text-lg mb-1.5">Continuous Learning</h3><p class="text-sm text-slate-500 leading-relaxed">Actively strengthen my Business Analysis expertise through independent learning and self-initiated projects.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Career Roadmap -->
+<section id="roadmap" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200 bg-white relative overflow-hidden">
+  <div class="blob w-96 h-96 bg-purple-50 opacity-70 top-0 right-0"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">02 · Career Roadmap</span></div>
+    <h2 class="reveal text-3xl sm:text-4xl font-bold tracking-tight mb-10">Where I'm Headed</h2>
+    <div class="grid md:grid-cols-[1fr_auto_1fr] gap-6 items-center">
+      <div class="reveal card-lift rounded-2xl border border-slate-200 p-8 bg-slate-50 relative">
+        <span class="inline-block text-xs font-bold uppercase tracking-widest text-purple-600 bg-purple-50 rounded-full px-3 py-1 mb-4">Now</span>
+        <h3 class="text-2xl font-bold mb-5">Junior Business Analyst</h3>
+        <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Core Expertise</div>
+        <ul class="space-y-2 text-sm text-slate-600 mb-6">
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Requirements Elicitation &amp; Analysis</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Business Process Modeling (BPMN/UML)</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Functional Documentation (BRD, SRS, User Stories, Use Cases)</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>UAT Planning &amp; Coordination</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Stakeholder &amp; Vendor Collaboration</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>SQL &amp; Data Analysis</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Agile/Scrum Delivery</li>
+        </ul>
+        <div class="text-sm text-slate-500 border-l-2 border-purple-600 pl-4">Professional Foundation: Over 4 years of experience delivering digital transformation initiatives — hands-on across the full SDLC, from requirements to post-launch enhancements.</div>
+      </div>
+
+      <div class="reveal reveal-delay-1 hidden md:flex flex-col items-center justify-center gap-2 px-2">
+        <span class="timeline-dot"></span>
+        <svg class="w-8 h-8 text-purple-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        <span class="timeline-dot"></span>
+      </div>
+
+      <div class="reveal reveal-delay-2 card-lift rounded-2xl p-8 text-white bg-gradient-to-br from-purple-600 to-pink-600 shadow-btn relative overflow-hidden">
+        <div class="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-white/10 blur-xl"></div>
+        <span class="inline-block text-xs font-bold uppercase tracking-widest text-white bg-white/15 rounded-full px-3 py-1 mb-4">Long-term (3–5 years)</span>
+        <h3 class="text-2xl font-bold mb-5">Senior Business Analyst</h3>
+        <div class="text-xs font-bold uppercase tracking-widest text-white/70 mb-3">Career Vision</div>
+        <p class="text-sm text-white/90 leading-relaxed mb-6 text-justify">To become a Senior Business Analyst who leads complex digital transformation initiatives, drives product discovery, shapes solution design, and delivers measurable business value through technology.</p>
+        <div class="text-xs font-bold uppercase tracking-widest text-white/70 mb-3">Growth Focus</div>
+        <ul class="space-y-2 text-sm text-white/90">
+          <li class="flex gap-2">— Solution Design</li>
+          <li class="flex gap-2">— Product Discovery</li>
+          <li class="flex gap-2">— Product Strategy</li>
+          <li class="flex gap-2">— Leadership</li>
+          <li class="flex gap-2">— AI &amp; Digital Transformation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Skills Map -->
+<section id="skills" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">03 · Skills Map</span></div>
+    <h2 class="reveal text-3xl sm:text-4xl font-bold tracking-tight mb-10">Professional Skills</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+      <div class="reveal card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 border-t-4 border-t-purple-500">
+        <div class="icon-badge icon-badge-sm mb-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 3.5h6v2H9zM8 10h8M8 13.5h8M8 17h5"/></svg></div>
+        <h3 class="font-bold mb-3">Business Analysis</h3>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Stakeholder Communication</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Requirements Elicitation</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Business Process Analysis</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">BRD &amp; SRS</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">UAT Coordination</span>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 border-t-4 border-t-purple-500">
+        <div class="icon-badge icon-badge-sm mb-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="5" rx="1"/><rect x="16" y="4" width="5" height="5" rx="1"/><rect x="9.5" y="15" width="5" height="5" rx="1"/><path d="M5.5 9v3a2 2 0 0 0 2 2h1.7M18.5 9v3a2 2 0 0 1-2 2h-1.7"/></svg></div>
+        <h3 class="font-bold mb-3">Methodologies &amp; Process</h3>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">SDLC</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Agile/Scrum</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">UML</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">BPMN</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">ERD</span>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 border-t-4 border-t-purple-500">
+        <div class="icon-badge icon-badge-sm mb-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5a3.5 3.5 0 0 1-4.6 4.6L4 17v3h3l5.9-5.9a3.5 3.5 0 0 1 4.6-4.6L21 6l-3-3Z"/></svg></div>
+        <h3 class="font-bold mb-3">Tools</h3>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Jira</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Confluence</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Figma</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Draw.io</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">SQL / MySQL</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">AI Tools</span>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-3 card-lift bg-white rounded-2xl border border-slate-100 shadow-soft p-6 border-t-4 border-t-purple-500">
+        <div class="icon-badge icon-badge-sm mb-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-3.5 3-5.5 5.5-5.5s5 2 5.5 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.5 14.3c2.2.3 3.9 2.1 4.3 4.7"/></svg></div>
+        <h3 class="font-bold mb-3">Soft Skills</h3>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Analytical Thinking</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Problem Solving</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Collaboration</span>
+          <span class="tag-pill text-xs bg-purple-50 text-purple-700 rounded-full px-2.5 py-1 border border-transparent cursor-default">Adaptability</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal text-sm text-slate-500 border-t border-dashed border-slate-200 pt-6"><strong class="text-slate-900">Business Analysis Toolkit</strong> — Jira · Confluence · Figma · Draw.io · Postman · MySQL · GitHub</div>
+  </div>
+</section>
+
+<!-- 04 Featured Projects -->
+<section id="projects" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200 bg-white">
+  <div class="max-w-[calc(80rem+3cm)] mx-auto px-4 sm:px-6">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">04 · Featured Projects</span></div>
+    <h2 class="reveal text-3xl sm:text-4xl font-bold tracking-tight mb-10">Selected Case Studies</h2>
+
+    <div class="reveal case open card-lift bg-slate-50 rounded-2xl border border-slate-100 shadow-soft mb-5 overflow-hidden">
+      <div class="relative">
+        <img src="travel.png" alt="TravelLoop project cover" class="w-full h-56 object-cover" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 pointer-events-none"></div>
+        <span class="absolute top-4 right-4 text-xs font-semibold text-purple-700 bg-white/90 backdrop-blur rounded-full px-3 py-1 shadow-soft">Self-Initiated</span>
+      </div>
+      <div class="p-6 flex justify-between items-center gap-4 cursor-pointer flex-wrap hover:bg-slate-100/60 transition-colors" onclick="window.open('https://travelloop-ba.vercel.app/', '_blank', 'noopener')">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-xs font-bold text-white bg-gradient-to-br from-purple-600 to-pink-600 rounded-full w-7 h-7 flex items-center justify-center shadow-glow">1</span>
+          <span class="font-bold text-lg">TravelLoop — Trip Planning &amp; Expense Management</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold text-purple-600 hidden sm:inline">Tap card to open ↗</span>
+          <span class="chev-wrap"><svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+        </div>
+      </div>
+      <div class="case-body px-6">
+        <div class="border-t border-slate-200 pt-5 pb-6">
+          <p class="text-sm text-slate-600 mb-4 max-w-none text-justify"><strong class="text-slate-900">Role:</strong> Business Analyst (Self-Initiated Project) — designed the business solution for TravelLoop, a mobile app that helps groups plan trips, manage shared expenses, and automatically split costs. Conducted user research and competitor analysis, modeled business processes, and designed interactive prototypes for core user journeys.</p>
+          <div class="text-xs font-bold uppercase tracking-widest text-purple-600 mb-3">Key Deliverables</div>
+          <ul class="space-y-2 text-sm text-slate-600 mb-4">
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Completed 1 BRD and 1 SRS covering business and system requirements</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Developed 1 User Story Map to define product scope and prioritize features</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Modeled 3 BPMN diagrams for core business workflows</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Designed 1 ERD to define the application's data structure</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Created interactive prototypes for 2 key business flows</li>
+          </ul>
+          <a href="https://travelloop-ba.vercel.app/" target="_blank" rel="noopener" class="text-sm font-semibold text-purple-600 hover:text-purple-700">View project →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal case card-lift bg-slate-50 rounded-2xl border border-slate-100 shadow-soft mb-5 overflow-hidden">
+      <div class="relative">
+        <img src="amplus.png" alt="AEON MALL Plus project cover" class="w-full h-56 object-cover" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 pointer-events-none"></div>
+        <span class="absolute top-4 right-4 text-xs font-semibold text-purple-700 bg-white/90 backdrop-blur rounded-full px-3 py-1 shadow-soft">BA · Tester · Consultant</span>
+      </div>
+      <div class="p-6 flex justify-between items-center gap-4 cursor-pointer flex-wrap hover:bg-slate-100/60 transition-colors" onclick="this.closest('.case').classList.toggle('open')">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-xs font-bold text-white bg-gradient-to-br from-purple-600 to-pink-600 rounded-full w-7 h-7 flex items-center justify-center shadow-glow">2</span>
+          <span class="font-bold text-lg">AEON MALL Plus — E-commerce Marketplace</span>
+        </div>
+        <span class="chev-wrap"><svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </div>
+      <div class="case-body px-6">
+        <div class="border-t border-slate-200 pt-5 pb-6">
+          <p class="text-sm text-slate-600 mb-4 max-w-none text-justify">Contributed to the AEON MALL Plus marketplace platform across Web and Mobile. Responsible for requirement analysis, functional solution consulting, business process modeling, documentation, UAT coordination, and post-launch enhancements for seller onboarding, product management, ordering, and payment.</p>
+          <div class="text-xs font-bold uppercase tracking-widest text-purple-600 mb-3">Key Achievements</div>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Successful launch with no critical post-release defects</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Facilitated onboarding of 250+ sellers</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Produced 12 marketplace policy documents &amp; operational guides</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Developed 30+ Use Case Specifications with UML diagrams</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Contributed to 6 post-launch enhancement phases</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal case card-lift bg-slate-50 rounded-2xl border border-slate-100 shadow-soft mb-5 overflow-hidden">
+      <div class="relative">
+        <img src="parking.png" alt="Parking Data Analysis Solution project cover" class="w-full h-56 object-cover" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 pointer-events-none"></div>
+        <span class="absolute top-4 right-4 text-xs font-semibold text-purple-700 bg-white/90 backdrop-blur rounded-full px-3 py-1 shadow-soft">Requirement Coordinator</span>
+      </div>
+      <div class="p-6 flex justify-between items-center gap-4 cursor-pointer flex-wrap hover:bg-slate-100/60 transition-colors" onclick="this.closest('.case').classList.toggle('open')">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-xs font-bold text-white bg-gradient-to-br from-purple-600 to-pink-600 rounded-full w-7 h-7 flex items-center justify-center shadow-glow">3</span>
+          <span class="font-bold text-lg">Parking Data Analysis Solution</span>
+        </div>
+        <span class="chev-wrap"><svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </div>
+      <div class="case-body px-6">
+        <div class="border-t border-slate-200 pt-5 pb-6">
+          <p class="text-sm text-slate-600 mb-4 max-w-none text-justify">Supported the implementation of a parking analytics dashboard for shopping mall operations, gathering reporting requirements and collaborating with vendors to customize dashboards for operational monitoring across multiple locations.</p>
+          <div class="text-xs font-bold uppercase tracking-widest text-purple-600 mb-3">Key Achievements</div>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Delivered requirements for 2 malls covering 8–10 operational zones</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Defined 4 core analytics report types with stakeholders and vendors</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Standardized reporting requirements across operational areas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal case card-lift bg-slate-50 rounded-2xl border border-slate-100 shadow-soft overflow-hidden">
+      <div class="relative">
+        <img src="people.png" alt="People Counting Solution project cover" class="w-full h-56 object-cover" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 pointer-events-none"></div>
+        <span class="absolute top-4 right-4 text-xs font-semibold text-purple-700 bg-white/90 backdrop-blur rounded-full px-3 py-1 shadow-soft">Requirement Coordinator</span>
+      </div>
+      <div class="p-6 flex justify-between items-center gap-4 cursor-pointer flex-wrap hover:bg-slate-100/60 transition-colors" onclick="this.closest('.case').classList.toggle('open')">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-xs font-bold text-white bg-gradient-to-br from-purple-600 to-pink-600 rounded-full w-7 h-7 flex items-center justify-center shadow-glow">4</span>
+          <span class="font-bold text-lg">People Counting Data Analysis Solution</span>
+        </div>
+        <span class="chev-wrap"><svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </div>
+      <div class="case-body px-6">
+        <div class="border-t border-slate-200 pt-5 pb-6">
+          <p class="text-sm text-slate-600 mb-4 max-w-none text-justify">Analyzed business requirements for a people-counting and footfall analytics system monitoring customer traffic across shopping malls, defining reporting and data requirements for different operational zones with stakeholders and vendors.</p>
+          <div class="text-xs font-bold uppercase tracking-widest text-purple-600 mb-3">Key Achievements</div>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Requirements for 10 malls with 250–500+ counting points</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Defined data requirements for 3 zone types: Entrance, Corridor, Restroom</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Delivered 2 core analytical reports: Traffic Volume &amp; Average Dwell Time</li>
+            <li class="flex gap-2"><span class="text-purple-600">—</span>Coordinated requirement alignment across internal teams</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Certificates -->
+<section id="certificates" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">05 · Certificates</span></div>
+    <h2 class="reveal text-3xl sm:text-4xl font-bold tracking-tight mb-10">Credentials</h2>
+    <div class="grid sm:grid-cols-3 gap-5">
+      <div class="reveal gborder card-lift">
+        <div class="gborder-inner p-6 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-bl-3xl"></div>
+          <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1 6 4.5-2.3 4.5 2.3-1-6"/></svg></div>
+          <h3 class="font-bold mb-1 relative z-10">IELTS Academic — Band 7.0</h3>
+          <p class="text-sm text-slate-500 relative z-10">IDP IELTS · 2021</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1 gborder card-lift">
+        <div class="gborder-inner p-6 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-bl-3xl"></div>
+          <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1 6 4.5-2.3 4.5 2.3-1-6"/></svg></div>
+          <h3 class="font-bold mb-1 relative z-10">CBAP® Exam Prep Specialization</h3>
+          <p class="text-sm text-slate-500 relative z-10">Starweaver, via Coursera · 2026</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2 gborder card-lift">
+        <div class="gborder-inner p-6 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-bl-3xl"></div>
+          <div class="icon-badge mb-4 relative z-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1 6 4.5-2.3 4.5 2.3-1-6"/></svg></div>
+          <h3 class="font-bold mb-1 relative z-10">Software Development Lifecycle Specialization</h3>
+          <p class="text-sm text-slate-500 relative z-10">University of Minnesota, via Coursera · 2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Quote -->
+<section id="quote" class="py-16 sm:py-20 border-t border-slate-200 bg-white">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center relative">
+    <div class="blob w-72 h-72 bg-purple-50 opacity-70 -top-10 left-1/2 -translate-x-1/2"></div>
+    <div class="reveal relative z-10">
+      <div class="text-6xl grad-text font-serif leading-none mb-2">"</div>
+      <blockquote class="text-xl sm:text-2xl font-semibold text-slate-800 leading-relaxed font-serif">A great Business Analyst doesn't just understand systems — they understand the people behind the requirements. I believe technology delivers real value only when it starts with listening carefully, analyzing accurately, and solving the right problems for users and businesses.</blockquote>
+      <div class="mt-6 flex items-center justify-center gap-3">
+        <span class="w-8 h-[2px] bg-gradient-to-r from-purple-600 to-pink-600 rounded-full"></span>
+        <span class="text-sm font-semibold text-slate-500">Vu Thu Hai</span>
+        <span class="w-8 h-[2px] bg-gradient-to-r from-pink-600 to-purple-600 rounded-full"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 Contact -->
+<section id="contact" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">07 · Contact</span></div>
+    <div class="grid lg:grid-cols-2 gap-14">
+      <div class="reveal">
+        <h2 class="text-3xl font-bold tracking-tight mb-4">Let's Build Something Great Together</h2>
+        <p class="text-slate-500 mb-4">Thank you for taking the time to explore my portfolio.</p>
+        <p class="text-slate-500 mb-8">Let's connect and build meaningful digital solutions together.</p>
+        <div class="space-y-1">
+          <a href="tel:+84971594899" class="group flex items-center gap-3 py-2.5 border-b border-slate-200 text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors">
+            <span class="icon-badge icon-badge-sm group-hover:scale-105 transition-transform"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3.2l1.5 4.5-2 1.5a11 11 0 0 0 5.3 5.3l1.5-2 4.5 1.5V18a2 2 0 0 1-2 2C10.5 20 4 13.5 4 6a2 2 0 0 1 1-2Z"/></svg></span>
+            +84 971 594 899
+          </a>
+          <a href="mailto:thuhaivu999@gmail.com" class="group flex items-center gap-3 py-2.5 border-b border-slate-200 text-sm font-medium text-slate-700 hover:text-purple-600 transition-colors">
+            <span class="icon-badge icon-badge-sm group-hover:scale-105 transition-transform"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="m4 6.5 8 6 8-6"/></svg></span>
+            thuhaivu999@gmail.com
+          </a>
+          <div class="flex items-center gap-3 py-2.5 border-b border-slate-200 text-sm font-medium text-slate-700">
+            <span class="icon-badge icon-badge-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11.5a7 7 0 0 0-14 0C5 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg></span>
+            Phu Dien Ward, Hanoi
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-1 gborder">
+        <div class="gborder-inner p-7">
+          <form onsubmit="return sendMsg(event)">
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Full Name</label>
+            <input id="f-name" type="text" required class="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm mb-4 transition-colors">
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Email</label>
+            <input id="f-email" type="email" required class="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm mb-4 transition-colors">
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Company</label>
+            <input id="f-company" type="text" class="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm mb-4 transition-colors">
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Position Applying For</label>
+            <input id="f-position" type="text" class="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm mb-4 transition-colors">
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Message</label>
+            <textarea id="f-message" rows="4" class="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm mb-5 transition-colors"></textarea>
+            <button type="submit" class="btn-lift w-full grad-btn text-white font-semibold px-6 py-3 rounded-lg shadow-btn">Send Message</button>
+            <p class="text-xs text-slate-400 mt-3">This form opens your email client with the message pre-filled.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 Download Resume -->
+<section id="resume" class="py-16 sm:py-20 lg:py-24 border-t border-slate-200 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="reveal mb-4"><span class="eyebrow text-xs font-bold tracking-widest text-purple-600 uppercase">08 · Download Resume</span></div>
+    <div class="grid lg:grid-cols-2 gap-14 items-start">
+      <div class="reveal">
+        <h2 class="text-3xl font-bold tracking-tight mb-4">Get the Full Picture</h2>
+        <p class="text-slate-500 mb-4 max-w-md text-justify">You can download my latest resume for a full view of my education, project experience, and professional capabilities.</p>
+        <p class="text-sm font-semibold text-slate-700 mb-3">The resume includes:</p>
+        <ul class="space-y-2 text-sm text-slate-600 mb-8">
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Personal information</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Career objective</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Business Analysis project experience</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Professional skills &amp; tools</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Certifications</li>
+          <li class="flex gap-2"><span class="text-purple-600">—</span>Contact information</li>
+        </ul>
+      </div>
+
+      <div class="reveal reveal-delay-1 rounded-2xl p-8 sm:p-10 text-white bg-gradient-to-br from-purple-950 to-pink-950 relative overflow-hidden">
+        <div class="absolute inset-0 grid-pattern opacity-30"></div>
+        <div class="blob w-64 h-64 bg-pink-600 opacity-30 -bottom-10 -right-10"></div>
+        <div class="relative z-10">
+          <div class="flex flex-wrap gap-3">
+            <a href="Vu-Thu-Hai-CV-EN.pdf" download class="btn-lift bg-white text-purple-900 font-semibold px-6 py-3 rounded-full">📄 Download CV</a>
+            <a href="#contact" class="btn-lift bg-white/10 border border-white/30 text-white font-semibold px-6 py-3 rounded-full hover:bg-white/20">📩 Contact Me Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-slate-200 py-8 relative overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-between gap-3 text-xs text-slate-400">
+    <span>© 2026 Vu Thu Hai. All rights reserved.</span>
+    <span>Business Analyst Portfolio · v3.0</span>
+  </div>
+</footer>
+
+<script>
+function sendMsg(e){
+  e.preventDefault();
+  const name = document.getElementById('f-name').value;
+  const email = document.getElementById('f-email').value;
+  const company = document.getElementById('f-company').value;
+  const position = document.getElementById('f-position').value;
+  const message = document.getElementById('f-message').value;
+  const body = `Name: ${name}%0AEmail: ${email}%0ACompany: ${company}%0APosition: ${position}%0A%0A${message}`;
+  window.location.href = `mailto:thuhaivu999@gmail.com?subject=Portfolio Contact from ${encodeURIComponent(name)}&body=${body}`;
+  return false;
+}
+
+// header shadow on scroll
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 8) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+});
+
+// scroll reveal
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+}
+</script>
+
+</body>
+</html>
